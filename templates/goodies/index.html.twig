@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Goodies index{% endblock %}
+
+{% block body %}
+    <h1>Goodies index</h1>
+
+    <table class="table table-dark">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>ImdbID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Image</th>
+                <th>Price</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for goody in goodies %}
+            <tr>
+                <td>{{ goody.id }}</td>
+                <td>{{ goody.imdbID }}</td>
+                <td>{{ goody.name }}</td>
+                <td>{{ goody.description }}</td>
+                <td>
+                    <img src="{{ goody.image }}" class="img-fluid"/>
+                </td>
+                <td>{{ goody.price }}</td>
+                <td>
+                    <a href="{{ path('goodies_show', {'id': goody.id}) }}">show</a>
+                    <a href="{{ path('goodies_edit', {'id': goody.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('goodies_new') }}">Create new</a>
+{% endblock %}

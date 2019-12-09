@@ -1,0 +1,27 @@
+{% extends "base.html.twig" %}
+
+{# On a récupéré la variable movie #}
+
+{% block title %}
+    Erreur!
+{% endblock %}
+
+
+{% block body %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ path('movie en Twig') }}">Liste des films</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Erreur
+            </li>
+        </ol>
+    </nav>
+
+    <h1>Erreur! Film non trouvé avec le terme <span>{{ queryTerm }}</span></h1>
+
+
+    <a href="{{ path('movie en Twig') }}">Voir tous les films</a>
+
+{% endblock %}

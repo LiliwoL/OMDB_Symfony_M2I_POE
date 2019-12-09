@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des films récupérés sur OMDB{% endblock %}
+
+{% block body %}
+
+    {#
+        {{ dump( liste ) }}
+    #}
+
+    <!-- Affichage en tableau -->
+    <!--
+        <table class="table table-hover">
+            {# Parcours de la variable reçue du Controller list #}
+            {% for movie in liste %}
+                <tr>
+                    <th></th>
+                    <td>{{ movie.Title }}</td>
+                    <td>{{ movie.Year }}</td>
+                    <td>
+                        <img class="h-10" src="{{ movie.Poster }}" />
+                    </td>
+                    <td>
+                        <a href="{{ path('Fiche dun film', { imdbID: movie.imdbID } ) }}">Voir la fiche du film</a>
+                    </td>
+                </tr>
+            {%  endfor %}
+        </table>
+     -->
+
+
+    <div class="card-group">
+        {# Parcours de la variable reçue du Controller list #}
+        {% for movie in liste %}
+            <div class="card">
+                <img src="{{ movie.Poster }}" class="card-img-top" alt="{{ movie.Title }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ movie.Title }}</h5>
+
+                    <span class="badge badge-primary badge-pill">{{ movie.Year }}</span>
+
+                    <p class="card-text">
+                        <small class="text-muted">
+                            <a href="{{ path('Fiche dun film', { imdbID: movie.imdbID } ) }}">Voir la fiche du film</a>
+                        </small>
+                    </p>
+                </div>
+            </div>
+        {%  endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,161 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail du film {{ fiche.Title }}{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    {% for message in app.flashes('danger') %}
+        <div class="alert alert-danger" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    {% for message in app.flashes('warning') %}
+        <div class="alert alert-warning" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <div class="row">
+        <div class="col">
+            <span class="badge badge-danger badge-pill">{{ fiche.Country }}</span>
+
+            <img src="{{ fiche.Poster }}" class="img-fluid" alt="Responsive image">
+        </div>
+
+        {# {{ dump (fiche) }} #}
+        <div class="col">
+            <p>
+                {{ fiche.Plot }}
+            </p>
+
+            <!-- Formulaire de partage par mail -->
+            <form method="POST" action="{{ path('send email') }}">
+                <!-- Champ email contenant l'email du destinataire -->
+                <input type="email" name="emailDestinataire" placeholder="Email du destinataire" />
+
+                <!-- Champ caché contenant l'imdbID du film en cours -->
+                <input type="hidden" name="imdbID" value="{{ fiche.imdbID }}" />
+
+                <input class="button" type="submit" value="Partager ce film" />
+            </form>
+
+
+
+            <!-- Lien de votes en dur -->
+            <a href="{{ path('Ajouter un vote', { imdbID: fiche.imdbID, valeurDuVote: 0 }) }}" class="btn btn-danger">0</a>
+            <a href="{{ path('Ajouter un vote', { imdbID: fiche.imdbID, valeurDuVote: 5 }) }}" class="btn btn-warning">5</a>
+            <a href="{{ path('Ajouter un vote', { imdbID: fiche.imdbID, valeurDuVote: 10 }) }}" class="btn btn-info">10</a>
+
+
+            {# On split la chaine fiche.Genre et on crée un tableau genres #}
+            {% set genres = fiche.Genre|split(',') %}
+
+            {# Parcours du tableau genres #}
+            {% for genre in genres %}
+                <span class="badge badge-primary badge-pill">{{ genre }}</span>
+            {% endfor %}
+
+            <div>
+                <h2>Notes</h2>
+                    Site:<span class="badge badge-danger badge-pill">{{ moyenne }}</span>
+                    ImDB:<span class="badge badge-warning badge-pill">{{ fiche.imdbRating }}</span>
+
+                {% for rating in fiche.Ratings %}
+                    {{ rating.Source }}:<span class="badge badge-info badge-pill">{{ rating.Value }}</span>
+                {% endfor %}
+            </div>
+
+            <hr>
+
+
+
+            <!--
+                Button trigger modal
+
+                 L'attribut data-target correspond à l'id de la modal à afficher
+            -->
+            <button
+                    type="button"
+                    class="btn btn-primary"
+                    data-toggle="modal"
+                    data-target="#voteModal"
+            >
+                Voter
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="voteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Vote par formulaire</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{ path('Vote By Form') }}" method="post">
+                                <div class="row">
+                                    <div class="col">
+                                        <img src="{{ fiche.Poster }}" class="img-fluid" alt="Responsive image">
+                                    </div>
+                                    <div class="col">
+                                        <h6>{{ fiche.Title }} - {{ fiche.Year }}</h6>
+                                        <p>
+                                            Saisissez ci dessous la note que vous voulez attribuer à ce film
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Email du destinataire -->
+                                <div class="form-group">
+                                    <label for="formControlRange">Votre note</label>
+                                    <input type="range" name="note" class="form-control-range" id="formControlRange" min="0" max="10" step="1">
+                                </div>
+
+                                <!-- Champ Caché comprenant l'id du FILM -->
+                                <input type="hidden" name="imdbID" value="{{ fiche.imdbID }}" />
+
+                                <!-- Button à styliser par CSS -->
+                                <button class="btn btn-primary">Voter</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <hr>
+
+            <!-- Affichage des goodies -->
+
+            <p>
+                <a class="btn btn-primary" data-toggle="collapse" href="#goodies" role="button" aria-expanded="false" aria-controls="collapseExample">
+                    Afficher les goodies
+                </a>
+            </p>
+            <div class="collapse" id="goodies">
+                <div class="card card-body">
+                    Affichage des goodies
+                    {% for goody in goodies %}
+                        <p>{{ goody.name }}</p>
+                        <p>{{ goody.description }}</p>
+                        <img class="img-fluid" src="{{ goody.image }}" />
+                        <span class="badge badge-danger badge-pill">{{ goody.price }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

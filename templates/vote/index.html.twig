@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des votes{% endblock %}
+
+{% block body %}
+
+
+<div class="container">
+    <h1>Liste des votes</h1>
+
+    <table class="table table-hover">
+
+        {# Parcours de la variable listeVotes #}
+        {% for vote in listeVotes %}
+            <tr>
+                <td>Id: {{ vote.id }}</td>
+                <td>
+                    ImdbId: <a href="{{ path('Fiche dun film', { imdbID: vote.imdbID} ) }}">
+                        {{ vote.imdbID }}
+                    </a>
+                    </td>
+                <td>Note: {{ vote.note }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

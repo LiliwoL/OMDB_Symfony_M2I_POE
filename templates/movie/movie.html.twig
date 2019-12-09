@@ -1,0 +1,37 @@
+{% extends "base.html.twig" %}
+
+{# On a récupéré la variable movie #}
+
+{% block title %}
+    Fiche du film {{ movie.title }}
+{% endblock %}
+
+
+{% block body %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ path('movie en Twig') }}">Liste des films</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Fiche du film {{ movie.title }}
+            </li>
+        </ol>
+    </nav>
+
+    <h1>Fiche du film {{ movie.title | upper }}</h1>
+
+
+    {# Affichage avec le composant CARD de Bootstrap #}
+    <div class="card bg-dark text-white">
+        <img class="card-img" src="{{ movie.poster }}" alt="{{ movie.synopsis | escape }}">
+        <div class="card-img-overlay">
+            <h5 class="card-title">{{ movie.title }}</h5>
+            <p class="card-text">{{ movie.synopsis }}</p>
+            <p class="card-text">{{ movie.genre }}</p>
+        </div>
+    </div>
+
+    <a href="{{ path('movie en Twig') }}">Voir tous les films</a>
+
+{% endblock %}

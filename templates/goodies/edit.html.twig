@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Goodies{% endblock %}
+
+{% block body %}
+    <h1>Edit Goodies</h1>
+
+    {{ include('goodies/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('goodies_index') }}">back to list</a>
+
+    {{ include('goodies/_delete_form.html.twig') }}
+{% endblock %}

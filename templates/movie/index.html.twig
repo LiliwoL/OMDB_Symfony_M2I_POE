@@ -1,0 +1,45 @@
+{# Commentaire en TWIG #}
+{# Retrouvez la documentation ici: https://twig.symfony.com/ #}
+
+{% extends "base.html.twig" %}
+
+{% block title %}Liste des films{% endblock %}
+
+{% block body %}
+    {# Affichage DUMP de la variable liste reçue du controleur #}
+    {{ dump (liste) }}
+
+    <h1>Liste des films</h1>
+
+    <h2>Affichage en liste unordered</h2>
+    <ul>
+        {# Parcours de la variable #}
+        {% for movie in liste %}
+            <li>
+                Titre: {{ movie.title|upper }}
+                <br/>
+                Poster: {{ movie.poster }}
+            </li>
+        {%  endfor %}
+    </ul>
+
+    <hr/>
+
+    <h2>Affichage en table</h2>
+    <table class="table table-dark">
+        {# Parcours de la variable #}
+        {% for movie in liste %}
+            <tr>
+                <td>
+                    Titre: {{ movie.title }}
+                </td>
+                <td>
+                    <img class="rounded" src="{{ movie.poster }}" />
+                </td>
+                <td>
+                    <a href="{{ path('movie Twig with a param', { id: movie.id } ) }}">Voir la fiche du film</a>
+                </td>
+            </tr>
+        {%  endfor %}
+    </table>
+{% endblock %}
